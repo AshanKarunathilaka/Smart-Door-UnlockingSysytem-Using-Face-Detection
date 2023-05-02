@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login V1</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="css/util.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+
+    <!--===============================================================================================-->
+  </head>
+  <body>
+    <div class="limiter">
+      <div class="container-login100">
+        <div class="wrap-login100">
+          <div class="login100-pic">
+            <iframe
+              width="360"
+              height="360"
+              src="https://www.youtube.com/watch?v=-Di50FIoq8w"
+              frameborder="0"
+              allow="accelerometer; autoplay;"
+            >
+            </iframe>
+          </div>
+
+          <!-- // vertical divider -->
+
+          <form
+            id="face-detection-form"
+            class="login100-form validate-form"
+            style="padding-bottom: 10px"
+          >
+            <span class="login100-form-title"> Smart Door Lock System </span>
+
+            <div class="wrap-input100 validate-input">
+              <ul>
+                <li>&#x25C9;&nbsp;&nbsp;Place your face in the box</li>
+                <li>&#x25C9;&nbsp;&nbsp;Click on the Detect button</li>
+                <li>&#x25C9;&nbsp;&nbsp;Wait for the result</li>
+              </ul>
+            </div>
+
+            <div class="container-login100-form-btn">
+              <button class="login100-form-btn" id="detect-byn">Detect</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const detectBtn = document.getElementById('detect-byn');
+      const form2 = document.getElementById('face-detection-form');
+
+      form2.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        detectBtn.innerHTML = 'Detecting...';
+        detectBtn.disabled = true;
+        detectBtn.style.backgroundColor = 'black';
+
+        await fetch('/detect')
+          .then((res) => res.json())
+          .then((data) => {
+            detectBtn.innerHTML = 'Detect';
+            detectBtn.disabled = false;
+            detectBtn.style.backgroundColor = '#57b846';
+            if (data.success === 'true') {
+              alert('Face detected');
+            } else {
+              alert('Face not detected');
+            }
+          })
+          .catch((err) => {
+            alert('Something went wrong');
+            detectBtn.innerHTML = 'Detect';
+            detectBtn.disabled = false;
+          });
+      });
+    </script>
+  </body>
+</html>
